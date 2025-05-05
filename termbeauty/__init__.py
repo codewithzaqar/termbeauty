@@ -1,10 +1,12 @@
 from .colors import Color
 from .styles import Style
 from .formatters import Formatter
-from .utils import clear_screen, print_centered, draw_box
+from .utils import clear_screen, print_centered, draw_box, supports_256_colors
 from .progress import ProgressBar
+from .tables import Table
+from .spinners import Spinner
 
-__version__ = "0.02"
+__version__ = "0.03"
 
 # Expose main classes and functions for easy import
-__all__ = ["Color", "Style", "Formatter", "clear_screen", "print_centered", "draw_box", "ProgressBar"]
+__all__ = ["Color", "Style", "Formatter", "clear_screen", "print_centered", "draw_box", "supports_256_colors", "ProgressBar", "Table", "Spinner"]

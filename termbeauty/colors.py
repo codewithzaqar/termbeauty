@@ -28,15 +28,34 @@ class Color:
     }
 
     @staticmethod
-    def colorize(text, fg_color=None, bg_color=None):
+    def colorize(text, fg_color=None, bg_color=None, fg_256=None, bg_256=None):
         """Apply foreground and/or background color to the given text."""
         result = text
+        reset = "\033[0m"
+
+        # Standard foreground color
         if fg_color:
             if fg_color.lower() not in Color.FOREGROUND:
                 raise ValueError(f"Unsupported foreground color: {fg_color}. Available: {list(Color.FOREGROUND.keys())}")
             result = f"{Color.FOREGROUND[fg_color.lower()]}{result}"
+
+        # Standard background color
         if bg_color:
             if bg_color.lower() not in Color.BACKGROUND:
                 raise ValueError(f"Unsupported background color: {bg_color}. Available: {list(Color.BACKGROUND.keys())}")
             result = f"{Color.BACKGROUND[bg_color.lower()]}{result}"
         return f"{result}{Color.FOREGROUND['reset']}"
+    
+        # 256-color foreground
+        if fg_256 is not None:
+            if not (0 <= fg_256 <= 255):
+                raise ValueError("256-color code must be between 0 and 255")
+            result = f"\033[38;5;{fg_256}m{result}]"
+
+        # 256-color background
+        if bg_256 is not None:
+            if not (0 <= bg_256 <= 255):
+                raise ValueError("256-color code must be between 0 and 255")
+            result = f"\033[48;5;{bg_256}m{result}]"
+
+        return f"{result}{reset}"

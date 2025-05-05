@@ -1,5 +1,6 @@
 import shutil
 import os
+import sys
 
 def clear_screen():
     """Clear the terminal screen."""
@@ -22,3 +23,10 @@ def draw_box(text, width=None, border_char="*"):
     print(border)
     print(f"{border_char}{padding_text}{border_char}")
     print(border) 
+
+def supports_256_colors():
+    """Check if the terminal supports 256 colors."""
+    if sys.platform == "win32":
+        # Windows terminals vary; assume modern terminals (e.g., Windows Terminal) support 256 colors
+        return os.environ.get("TERM") in ["xterm-256color", "screen-256color"] or "WT_SESSION" in os.environ
+    return os.environ.get("TERM") in ["xterm-256color", "screen-256color", "linux"]
