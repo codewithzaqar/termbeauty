@@ -5,6 +5,8 @@ class Style:
     STYLES = {
         "bold": "\033[1m",
         "underline": "\033[4m",
+        "italic": "\033[3m",
+        "strikethrough": "\033[9m",
         "reset": "\033[0m"
     }
 

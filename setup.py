@@ -2,7 +2,7 @@ from setuptools import setup, find_packages
 
 setup(
     name="termbeauty",
-    version="0.01",
+    version="0.02",
     packages=find_packages(),
     description="A simple library for rich text and formatting in the terminal",
     author="Zaqar Hakobyan",
