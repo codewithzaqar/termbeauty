@@ -30,3 +30,12 @@ def supports_256_colors():
         # Windows terminals vary; assume modern terminals (e.g., Windows Terminal) support 256 colors
         return os.environ.get("TERM") in ["xterm-256color", "screen-256color"] or "WT_SESSION" in os.environ
     return os.environ.get("TERM") in ["xterm-256color", "screen-256color", "linux"]
+
+def supports_true_color():
+    """Check if the terminal supports true-color (24-bit RGB)."""
+    term = os.environ.get("TERM", "")
+    colorterm = os.environ.get("COLORTERM", "")
+    if sys.platform == "win32":
+        # Modern Windows terminals (e.g., Windows Terminal) often support true-color
+        return "WT_SESSION" in os.environ or colorterm in ["truecolor", "24bit"]
+    return colorterm in ["truecolor", "24bit"] or term.endswith("-truecolor")

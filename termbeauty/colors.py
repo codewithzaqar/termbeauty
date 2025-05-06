@@ -28,7 +28,7 @@ class Color:
     }
 
     @staticmethod
-    def colorize(text, fg_color=None, bg_color=None, fg_256=None, bg_256=None):
+    def colorize(text, fg_color=None, bg_color=None, fg_256=None, bg_256=None, fg_rgb=None, bg_rgb=None):
         """Apply foreground and/or background color to the given text."""
         result = text
         reset = "\033[0m"
@@ -57,5 +57,19 @@ class Color:
             if not (0 <= bg_256 <= 255):
                 raise ValueError("256-color code must be between 0 and 255")
             result = f"\033[48;5;{bg_256}m{result}]"
+        
+        # True-color foreground (RGB)
+        if fg_rgb:
+            if not (isinstance(fg_rgb, tuple) and len(fg_rgb) == 3 and all(0 <= v <= 255 for v in fg_rgb)):
+                raise ValueError("fg_rgb must be a tuple of 3 integers (0-255) for R, G, B")
+            r, g, b = fg_rgb
+            result = f"\033[38;2;{r};{g};{b}m{result}]"
+
+        # True-color background (RGB)
+        if bg_rgb:
+            if not (isinstance(bg_rgb, tuple) and len(bg_rgb) == 3 and all(0 <= v <= 255 for v in bg_rgb)):
+                raise ValueError("bg_rgb must be a tuple of 3 integers (0-255) for R, G, B")
+            r, g, b = bg_rgb
+            result = f"\033[48;2;{r};{g};{b}m{result}]"
 
         return f"{result}{reset}"

@@ -1,3 +1,4 @@
+import os
 import sys
 import time
 import itertools
@@ -8,12 +9,15 @@ class Spinner:
     SPINNER_STYLES = {
         "dots": ["⠋", "⠙", "⠹", "⠸", "⠼", "⠴", "⠦", "⠧", "⠇", "⠏"],
         "line": ["-", "\\", "|", "/"],
-        "arrow": ["←", "↖", "↑", "↗", "→", "↘", "↓", "↙"]
+        "arrow": ["←", "↖", "↑", "↗", "→", "↘", "↓", "↙"],
+        "simple": ["*", "+", "x", "o"]  # Fallback for basic terminals
     }
 
     def __init__(self, message="Processing", style="dots", speed=0.1):
         self.message = message
-        self.style = style if style in self.SPINNER_STYLES else "dots"
+        self.style = style if style in self.SPINNER_STYLES else "simple"
+        if sys.platform == "win32" and style == "dots" and "WT_SESSION" not in os.environ:
+            self.style = "simple"
         self.frames = self.SPINNER_STYLES[self.style]
         self.speed = speed
         self.running = False
